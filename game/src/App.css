@@ -1,0 +1,9 @@
+body {
+  background-image: url(./assets/bg2.png);
+  background-position: 50%;
+}
+
+#root {
+  width: 100vw;
+  overflow: hidden;
+}

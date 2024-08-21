@@ -1,0 +1,17 @@
+appVersion: ""
+web:
+  replicaCount: 1
+  repository:
+    image: ijmacd/catcher:latest
+  ingress:
+    hostname: catcher.ijmacd.com
+    tls:
+      enabled: false
+  resources:
+    requests:
+      memory: 50Mi
+      cpu: 5m
+    limits:
+      memory: 50Mi
+  secrets:
+    moderatorPassword: ""

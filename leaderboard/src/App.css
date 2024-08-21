@@ -1,0 +1,70 @@
+body {
+  background-image: url(./assets/bg2.png);
+  background-position: 50%;
+  display: flex;
+  flex-direction: column;
+  place-items: center;
+}
+
+.Leaderboard-Content {
+  background-color: white;
+  padding: 0.5em 4em;
+  border-radius: 15px;
+  margin: 2em;
+}
+
+.error {
+  color: red;
+  text-align: center;
+}
+
+.Leaderboard-List {
+  animation-name: fade-in;
+  animation-duration: 0.5s;
+  animation-delay: 3s;
+  animation-fill-mode: both;
+}
+
+.Leaderboard-ListItem {
+  padding: 0.5em 1em;
+  border-bottom: 1px solid rgba(192 192 192);
+  animation: highlight 2.5s;
+  position: relative;
+  ;
+}
+
+.Leaderboard-ListItem button {
+  position: absolute;
+  right: 0;
+  top: 0;
+  font-size: 0.8em;
+}
+
+.Leaderboard-ListItem--selected {
+  background-color: rgb(255, 255, 118);
+  animation: none;
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes highlight {
+  0% {
+    background-color: rgb(128 128 255 / 0);
+  }
+
+  30% {
+    background-color: rgb(128 128 255 / 1);
+  }
+
+  100% {
+    background-color: rgb(128 128 255 / 0);
+  }
+}
