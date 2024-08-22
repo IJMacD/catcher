@@ -20,8 +20,13 @@ const appWs = expressWs(app);
 /** @type {LeaderboardEntry[]} */
 const leaderboard = [];
 
+// Serve static content from `public` directory
 app.use(express.static("public"));
 
+// Automatically parse JSON request bodies
+app.use(express.json());
+
+// Automatically parse HTML Form request bodies
 app.use(express.urlencoded({ extended: true }));
 
 const auth = basicAuth({
@@ -75,12 +80,8 @@ app.post("/api/leaderboard", (request, response) => {
     announceLeaderboard();
 });
 
-app.use("/api/leaderboard/:id", auth);
-
 app.get("/api/leaderboard/:id", (request, response) => {
     const entry = leaderboard.find(e => e.id === +request.params.id);
-
-    console.log(request.params);
 
     if (entry) {
         response.setHeader("Content-Type", "application/json");
@@ -91,6 +92,9 @@ app.get("/api/leaderboard/:id", (request, response) => {
         response.send();
     }
 });
+
+// Require Basic Auth for this endpoint
+app.use("/api/leaderboard/:id", auth);
 
 app.delete("/api/leaderboard/:id", (request, response) => {
     const entry = leaderboard.find(e => e.id === +request.params.id);
@@ -110,6 +114,7 @@ app.delete("/api/leaderboard/:id", (request, response) => {
     announceLeaderboard();
 });
 
+// Require Basic Auth for this endpoint
 app.use("/api/moderation/verify", auth);
 
 app.get("/api/moderation/verify", (req, res) => {
