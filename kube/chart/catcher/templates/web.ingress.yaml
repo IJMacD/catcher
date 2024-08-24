@@ -4,7 +4,7 @@ metadata:
   name: '{{ .Release.Name }}-web'
 spec:
   rules:
-  - host: '{{ .Values.hostname }}'
+  - host: '{{ .Values.web.ingress.hostname }}'
     http:
       paths:
       - path: /
@@ -17,6 +17,6 @@ spec:
   {{- if .Values.web.ingress.tls.enabled }}
   tls:
   - hosts:
-    - '{{ .Values.hostname }}'
+    - '{{ .Values.web.ingress.hostname }}'
     secretName: {{ .Release.Name }}-cert
   {{- end }}
