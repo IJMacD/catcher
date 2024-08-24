@@ -12,13 +12,7 @@ import p4 from "../assets/p4.png";
 
 const DEBUG = false;
 
-/**
- *
- * @param {object} props
- * @param {(score: number) => void} props.onGameEnd
- * @returns
- */
-export function PlayField({ onGameEnd }) {
+export function PlayField({ onGameEnd }: { onGameEnd: (score: number) => void }) {
     // Used to keep track of mouse position and feed it into the game loop.
     const [mousePosition, setMousePosition] = useState(() => window.innerWidth / 2);
     // keeps track of the direction the player is facing
@@ -37,7 +31,7 @@ export function PlayField({ onGameEnd }) {
         /**
          * @param {MouseEvent} e
          */
-        function cb(e) {
+        function cb(e: MouseEvent) {
             setMousePosition(e.x);
             playerMovementRef.current = e.movementX;
         }
@@ -48,8 +42,7 @@ export function PlayField({ onGameEnd }) {
         return () => document.removeEventListener("mousemove", cb);
     }, []);
 
-    /** @type {import('react').CSSProperties} */
-    const pageStyle = {
+    const pageStyle: React.CSSProperties = {
         backgroundImage: `url(${bgImg})`,
         backgroundSize: "cover",
         backgroundPosition: "50%",
@@ -63,8 +56,7 @@ export function PlayField({ onGameEnd }) {
         cursor: "none",
     };
 
-    /** @type {import('react').CSSProperties} */
-    const playerStyle = {
+    const playerStyle: React.CSSProperties = {
         backgroundImage: `url(${playerImg})`,
         backgroundSize: "contain",
         backgroundRepeat: "no-repeat",
@@ -76,8 +68,7 @@ export function PlayField({ onGameEnd }) {
         transform: `translate(-50%, 0) ${playerMovementRef.current < 0 ? "scale(-1, 1)" : ""}`,
     };
 
-    /** @type {import('react').CSSProperties} */
-    const hudStyle = {
+    const hudStyle: React.CSSProperties = {
         backgroundColor: "white",
         position: "absolute",
         top: 0,
@@ -86,22 +77,19 @@ export function PlayField({ onGameEnd }) {
         padding: "0 1em 0.25em",
     };
 
-    /** @type {import('react').CSSProperties} */
-    const scoreStyle = {
+    const scoreStyle: React.CSSProperties = {
         ...hudStyle,
         left: 0,
         borderBottomRightRadius: 10,
     };
 
-    /** @type {import('react').CSSProperties} */
-    const clockStyle = {
+    const clockStyle: React.CSSProperties = {
         ...hudStyle,
         right: 0,
         borderBottomLeftRadius: 10,
     };
 
-    /** @type {import('react').CSSProperties} */
-    const debugCollisionStyle = {
+    const debugCollisionStyle: React.CSSProperties = {
         border: "2px solid red",
         position: "absolute",
         left: playerPosition - 50,
@@ -114,8 +102,7 @@ export function PlayField({ onGameEnd }) {
         <div style={pageStyle}>
             {
                 objects.map(obj => {
-                    /** @type {import('react').CSSProperties} */
-                    const objectStyle = {
+                    const objectStyle: React.CSSProperties = {
                         position: "absolute",
                         top: obj.y,
                         left: obj.x,
@@ -139,8 +126,7 @@ export function PlayField({ onGameEnd }) {
 
 /**
  * Helper function to map sprite names to URLs
- * @param {string} sprite
  */
-function getSprite(sprite) {
+function getSprite(sprite: string) {
     return { e1, e2, p1, p2, p3, p4 }[sprite];
 }

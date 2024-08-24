@@ -1,8 +1,9 @@
 # Catcher
 
 This is a catch game web application demonstrating various technologies. The
-frontend is built with [React.JS](https://react.dev) and a backend is provided
-using [Node.js](https://nodejs.org).
+frontend is built with [React](https://react.dev) in
+[TypeScript](https://www.typescriptlang.org/) and a backend is provided
+using [Go](https://go.dev/).
 
 The leaderboard updates live to show the latest changes in standings, making use
 of WebSockets to achieve this.
@@ -63,11 +64,9 @@ http://localhost:5173/.
 To start the server keeping track of the leaderboard, run these commands in a
 separate terminal:
 
-```console
-$ cd catcher/server
-$ yarn
-$ node .
-Server running at http://0.0.0.0:3000
+```bash
+cd catcher/server
+go run ./main.go
 ```
 
 To complete the trilogy, the leaderboard dev server can be started too, in yet
@@ -132,7 +131,7 @@ The quickest deployment method is using Docker. The command below will start up
 a server on port 3000 using the moderator password provided.
 
 ```bash
-docker run -it --init --rm -e MODERATOR_PASSWORD=secret -p 3000:3000 ijmacd/catcher:latest
+docker run -it --init --rm -e MODERATOR_PASSWORD=secret -p 3000:3000 ijmacd/catcher:typescript-go
 ```
 
 ### Bare server
@@ -155,23 +154,19 @@ directory. These can then be deployed along with the code in the `server`
 directory. The resultant directory structure should resemble the following:
 
     /
-    ├── index.js
-    ├── node_modules
-    │   └── [...]
-    ├── package.json
-    ├── public
-    │   ├── assets
-    │   │   ├── [...].png
-    │   │   ├── index-[...].js
-    │   │   └── index-[...].css
-    │   ├── index.html
-    │   └── leaderboard
-    │       ├── assets
-    │       │   ├── [...].png
-    │       │   ├── index-[...].js
-    │       │   └── index-[...].css
-    │       └── index.html
-    └── yarn.lock
+    ├── main
+    └── public
+        ├── assets
+        │   ├── [...].png
+        │   ├── index-[...].js
+        │   └── index-[...].css
+        ├── index.html
+        └── leaderboard
+            ├── assets
+            │   ├── [...].png
+            │   ├── index-[...].js
+            │   └── index-[...].css
+            └── index.html
 
 ### Docker
 

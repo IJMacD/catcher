@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { produce } from "immer";
 
 // Duration of the game in seconds
@@ -25,44 +25,40 @@ const DEFAULT_FOUL_RATE = 1 / 3;
 // Size of player catchment area
 const COLLISION_RADIUS = 50;
 
-/**
- * @typedef GameObject
- * @property {number} id
- * @property {number} score
- * @property {string} sprite
- * @property {number} x
- * @property {number} y
- * @property {number} vx
- * @property {number} vy
- */
+interface GameObject {
+    id: number;
+    score: number;
+    sprite: string;
+    x: number;
+    y: number;
+    vx: number;
+    vy: number;
+}
 
-/**
- * @typedef GameParams
- * @property {number} difficulty
- * @property {number} spawnRate
- * @property {number} foulRate
- * @property {number} mousePosition
- * @property {number} playerPosition
- * @property {number} gameWidth
- * @property {number} gameHeight
- * @property {number} endTime
- */
+interface GameParams {
+    difficulty: number;
+    spawnRate: number;
+    foulRate: number;
+    mousePosition: number;
+    playerPosition: number;
+    gameWidth: number;
+    gameHeight: number;
+    endTime: number;
+}
 
 
 /**
  * This hook implements the main game loop
- * @param {number} mousePosition
  */
-export function useGameLoop(mousePosition) {
+export function useGameLoop(mousePosition: number) {
     // Keep score in its own state
     const [score, setScore] = useState(0);
     // Initialise the game objects list
-    const [objects, setObjects] = useState(() => /** @type {GameObject[]} */([]));
+    const [objects, setObjects] = useState([] as GameObject[]);
     // Create state to represent the player
     const [playerPosition, setPlayerPosition] = useState(mousePosition);
 
-    /** @type {import("react").MutableRefObject<GameParams>} */
-    const gameParamsRef = useRef({
+    const gameParamsRef: React.MutableRefObject<GameParams> = useRef({
         mousePosition,
         difficulty: DEFAULT_DIFFICULTY,
         spawnRate: DEFAULT_SPAWN_RATE,
@@ -85,10 +81,7 @@ export function useGameLoop(mousePosition) {
         let prevTime = 0;
         let prevSpawnTime = 0
 
-        /**
-         * @param {number} time
-         */
-        function loop(time) {
+        function loop(time: number) {
             const delta = Math.min(time - prevTime, 100);
             const spawnDelta = time - prevSpawnTime;
             prevTime = time;
@@ -194,22 +187,20 @@ export function useGameLoop(mousePosition) {
     };
 }
 
+type BBox = { left: number; top: number; right: number; bottom: number; };
+
 /**
  * Helper function to check if two bounding boxes interect
- * @param {{ left: number; top: number; right: number; bottom: number; }} a
- * @param {{ left: number; right: number; top: number; bottom: number; }} b
  */
-function areOverlappingBox(a, b) {
+function areOverlappingBox(a: BBox, b: BBox) {
     return a.left < b.right && b.left < a.right
         && a.top < b.bottom && b.top < a.bottom;
 }
 
 /**
  * Helper function to remove an item from a list
- * @param {import("immer").WritableDraft<GameObject>[]} list
- * @param {import("immer").WritableDraft<GameObject>} object
  */
-function removeObject(list, object) {
+function removeObject<T>(list: T[], object: T) {
     const index = list.indexOf(object);
     if (index > -1) {
         list.splice(index, 1);
@@ -219,10 +210,8 @@ function removeObject(list, object) {
 let nextID = 0;
 /**
  * Helper function to spawn new objects
- * @param {import("immer").WritableDraft<GameObject>[]} list
- * @param {GameParams} gameParams
  */
-function spawnObject(list, gameParams) {
+function spawnObject(list: GameObject[], gameParams: GameParams) {
     let score, sprite;
 
     if (Math.random() < gameParams.foulRate) {

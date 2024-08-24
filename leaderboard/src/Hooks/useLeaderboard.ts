@@ -1,17 +1,16 @@
 import { useEffect, useState } from "react";
 
-/**
- * @typedef LeaderboardEntry
- * @property {number} id
- * @property {string} playerName
- * @property {number} score
- * @property {string} submittedAt ISO 8601
- */
+interface LeaderboardEntry {
+    id: number;
+    playerName: string;
+    score: number;
+    submittedAt: string;
+}
 
 export function useLeaderboard() {
-    const [leaderboard, setLeaderboard] = useState(/** @type {LeaderboardEntry[]} */([]));
+    const [leaderboard, setLeaderboard] = useState([] as LeaderboardEntry[]);
     const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState(/** @type {Error?} */(null));
+    const [error, setError] = useState(null as Error | null);
 
     useEffect(() => {
         let active = true;
@@ -34,7 +33,7 @@ export function useLeaderboard() {
 
         ws.addEventListener("message", msg => {
             const data = JSON.parse(msg.data);
-            setLeaderboard(data.leaderboard);
+            setLeaderboard(data);
 
             // To avoid race condition at first load
             active = false;
@@ -47,13 +46,11 @@ export function useLeaderboard() {
         };
     }, []);
 
-    /**
-     * @param {number} id
-     */
-    function removeEntry(id) {
-        return fetch(`/api/leaderboard/${id}`, {
+    async function removeEntry(id: number) {
+        const r = await fetch(`/api/leaderboard/${id}`, {
             method: "DELETE",
-        }).then(r => r.ok);
+        });
+        return r.ok;
     }
 
     return {

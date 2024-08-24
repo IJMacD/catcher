@@ -12,10 +12,21 @@ RUN ["yarn"]
 COPY leaderboard /app
 RUN ["yarn", "build"]
 
-FROM node:22.2-slim AS final
-WORKDIR /app
-COPY server /app
-RUN ["yarn", "--frozen-lockfile"]
-COPY --from=game-build /app/dist /app/public
-COPY --from=leaderboard-build /app/dist /app/public/leaderboard
-CMD ["node", "."]
+FROM golang:1.23 AS go-build
+WORKDIR /go/src
+
+COPY server/go.mod server/go.sum ./
+RUN go mod download && go mod verify
+
+COPY server/go ./go
+COPY server/main.go .
+
+ENV CGO_ENABLED=0
+RUN go build -a -installsuffix cgo -o catcher .
+
+FROM scratch AS runtime
+COPY --from=go-build /go/src/catcher ./
+COPY --from=game-build /app/dist ./public
+COPY --from=leaderboard-build /app/dist ./public/leaderboard
+EXPOSE 8080/tcp
+ENTRYPOINT ["./catcher"]

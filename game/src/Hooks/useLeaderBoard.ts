@@ -5,16 +5,14 @@ import { useState } from "react";
  */
 export function useLeaderBoard() {
     const [isPending, setIsPending] = useState(false);
-    const [error, setError] = useState(/** @type {string?} */(null));
+    const [error, setError] = useState(null as string | null);
     const [submissionID, setSubmissionID] = useState(NaN);
 
     /**
      * This function takes a player name and a score. After the request is
-     * successful, the submissionID associated with the leaderboard entry is set.
-     * @param {string} name
-     * @param {number} score
+     * successful, the submissionID associated with the leaderboard entry is set
      */
-    function submitScore(name, score) {
+    function submitScore(name: string, score: number) {
         const body = new URLSearchParams();
         body.set("name", name);
         body.set("score", score.toString());
@@ -28,7 +26,7 @@ export function useLeaderBoard() {
                 throw new Error(`Unexpected result from server: [${r.status}] ${r.statusText}`);
             })
             .then(d => {
-                if (d.id) {
+                if (typeof d.id === "number") {
                     setSubmissionID(d.id);
                     setError(null);
                 }
@@ -36,7 +34,7 @@ export function useLeaderBoard() {
                     throw new Error(`Server did not return a submission ID`);
                 }
             })
-            .catch((/** @type {Error} */e) => {
+            .catch((e: Error) => {
                 setError(e.message);
             })
             .finally(() => {

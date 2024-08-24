@@ -1,8 +1,15 @@
-import React from "react";
-import { Component } from "react";
+import React, { Component } from "react";
 
-export class ErrorBoundary extends Component {
-    constructor(props) {
+type ErrorBoundaryProps = {
+    children: React.ReactNode;
+};
+
+type ErrorBoundaryState = {
+    error: Error | null;
+};
+
+export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
+    constructor(props: ErrorBoundaryProps) {
         super(props);
 
         this.state = {
@@ -10,10 +17,7 @@ export class ErrorBoundary extends Component {
         };
     }
 
-    /**
-     * @param {Error} error
-     */
-    componentDidCatch(error) {
+    componentDidCatch(error: Error) {
         this.setState({ error });
     }
 

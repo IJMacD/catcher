@@ -2,19 +2,11 @@ import React from 'react';
 import { useSavedState } from '../Hooks/useSavedState';
 import { useLeaderBoard } from '../Hooks/useLeaderBoard';
 
-/**
- *
- * @param {object} props
- * @param {number} props.finalScore
- * @param {() => void} props.onReset
- * @returns
- */
-export function GameOver({ finalScore, onReset }) {
+export function GameOver({ finalScore, onReset }: { finalScore: number, onReset: () => void }) {
     const [playerName, setPlayerName] = useSavedState("catcher.playerName", "");
     const { submitScore, isPending, error, submissionID } = useLeaderBoard();
 
-    /** @type {import('react').CSSProperties} */
-    const pageStyle = {
+    const pageStyle: React.CSSProperties = {
         width: "100%",
         minHeight: "100vh",
         display: "flex",
@@ -22,8 +14,7 @@ export function GameOver({ finalScore, onReset }) {
         justifyContent: "center",
     };
 
-    /** @type {import('react').CSSProperties} */
-    const contentStyle = {
+    const contentStyle: React.CSSProperties = {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -33,30 +24,24 @@ export function GameOver({ finalScore, onReset }) {
         boxShadow: "2px 2px 4px 4px rgb(0 0 0 / 0.5)"
     };
 
-    /** @type {import('react').CSSProperties} */
-    const titleStyle = {
+    const titleStyle: React.CSSProperties = {
         color: "rgb(64 64 64)",
         textShadow: "4px 4px 4px rgb(0 0 0 / 10%)"
     };
 
-    /** @type {import('react').CSSProperties} */
-    const textStyle = {
+    const textStyle: React.CSSProperties = {
         color: "rgb(64 64 64)",
         textShadow: "4px 4px 4px rgb(0 0 0 / 10%)"
     };
 
-    /** @type {import('react').CSSProperties} */
-    const inputStyle = {
+    const inputStyle: React.CSSProperties = {
         padding: "0.5em 1em",
         border: "1px solid rgb(128 128 128)",
         borderRadius: 10,
         fontSize: "1.2rem"
     }
 
-    /**
-     * @param {import('react').FormEvent<HTMLFormElement>} e
-     */
-    function handleSubmit(e) {
+    function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
 
         if (playerName) {

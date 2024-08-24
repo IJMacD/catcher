@@ -1,8 +1,8 @@
-import React, { StrictMode } from 'react'
+import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import App from './App.jsx'
+import App from './App.tsx'
 import './index.css'
-import { ErrorBoundary } from './ErrorBoundary.jsx'
+import { ErrorBoundary } from './ErrorBoundary.tsx'
 
 // @ts-ignore
 createRoot(document.getElementById('root')).render(

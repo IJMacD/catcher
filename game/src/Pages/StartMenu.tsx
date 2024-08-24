@@ -1,16 +1,10 @@
 import React from 'react';
 import bg from '../assets/bg1.png';
 
-/**
- *
- * @param {object} props
- * @param {() => void} props.onStart
- * @returns
- */
-export function StartMenu({ onStart }) {
+export function StartMenu({ onStart }: { onStart: () => void }) {
 
     /** @type {import('react').CSSProperties} */
-    const pageStyle = {
+    const pageStyle: React.CSSProperties = {
         backgroundImage: `url(${bg})`,
         backgroundSize: "cover",
         backgroundPosition: "50%",
@@ -21,21 +15,18 @@ export function StartMenu({ onStart }) {
         justifyContent: "center",
     };
 
-    /** @type {import('react').CSSProperties} */
-    const contentStyle = {
+    const contentStyle: React.CSSProperties = {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
     };
 
-    /** @type {import('react').CSSProperties} */
-    const titleStyle = {
+    const titleStyle: React.CSSProperties = {
         color: "white",
         textShadow: "2px 2px 4px rgb(0 0 0 / 50%)"
     };
 
-    /** @type {import('react').CSSProperties} */
-    const linkStyle = {
+    const linkStyle: React.CSSProperties = {
         margin: "1em",
         padding: "0.5em 1.5em",
         background: "rgb(33 33 33)",

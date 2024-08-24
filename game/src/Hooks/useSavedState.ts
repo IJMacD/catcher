@@ -2,12 +2,8 @@ import React, { useEffect, useState } from "react";
 
 /**
  * Hook to save state in local storage
- * @template T
- * @param {string} key
- * @param {T} initialValue
- * @returns {[T, React.Dispatch<T>]}
  */
-export function useSavedState(key, initialValue) {
+export function useSavedState<T>(key: string, initialValue: T): [T, React.Dispatch<T>] {
     const [state, setState] = useState(() => {
         const savedValue = localStorage.getItem(key);
 

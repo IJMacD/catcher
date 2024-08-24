@@ -2,7 +2,7 @@ appVersion: ""
 web:
   replicaCount: 1
   repository:
-    image: ijmacd/catcher:latest
+    image: ijmacd/catcher:typescript-go
   ingress:
     hostname: catcher.ijmacd.com
     tls:

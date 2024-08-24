@@ -30,6 +30,6 @@ spec:
                   key: moderator-password
           ports:
             - name: web
-              containerPort: 3000
+              containerPort: 8080
           resources:
             {{- toYaml .Values.web.resources | nindent 12 }}

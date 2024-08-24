@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import './App.css'
-import { useLeaderboard } from './Hooks/useLeaderboard';
+import { useLeaderboard } from './Hooks/useLeaderboard.ts';
 
 function App() {
   const { leaderboard, isLoading, error, removeEntry } = useLeaderboard();
