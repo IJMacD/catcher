@@ -49,7 +49,7 @@ yarn install v1.22.19
 Done in 3.02s.
 $ yarn dev
 yarn run v1.22.19
-$ vite
+  vite
 
   VITE v5.4.2  ready in 228 ms
 
@@ -131,7 +131,7 @@ The quickest deployment method is using Docker. The command below will start up
 a server on port 3000 using the moderator password provided.
 
 ```bash
-docker run -it --init --rm -e MODERATOR_PASSWORD=secret -p 3000:3000 ijmacd/catcher:typescript-go
+docker run -it --init --rm -e MODERATOR_PASSWORD=secret -p 3000:8080 ijmacd/catcher:typescript-go
 ```
 
 ### Bare server
@@ -150,11 +150,18 @@ done
 ```
 
 This will produce a bundle in the `dist` subdirectories inside each webapp
-directory. These can then be deployed along with the code in the `server`
-directory. The resultant directory structure should resemble the following:
+directory. The server can then be built using the following commands:
+
+```bash
+cd server
+go mod download
+go build -a -installsuffix cgo -o catcher .
+```
+
+The resultant directory structure should resemble the following:
 
     /
-    ├── main
+    ├── catcher
     └── public
         ├── assets
         │   ├── [...].png
@@ -175,19 +182,14 @@ To build the Docker image locally, execute the following commands:
 ```bash
 git clone https://github.com/IJMacD/catcher.git
 cd catcher
+git checkout typescript-go
 docker build -t catcher .
-```
-
-Alternatively, the Docker image can be built without cloning first.
-
-```bash
-docker build -t catcher https://github.com/IJMacD/catcher.git
 ```
 
 The image can then be run as demonstated above.
 
 ```bash
-docker run -it --init --rm -e MODERATOR_PASSWORD=secret -p 3000:3000 catcher
+docker run -it --init --rm -e MODERATOR_PASSWORD=secret -p 3000:8080 catcher
 ```
 
 ### Kubernetes (Helm)
